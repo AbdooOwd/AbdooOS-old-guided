@@ -1,0 +1,54 @@
+# By @AbdooOwd
+
+ASM?=nasm
+CC?=gcc
+
+
+# NOTE: idk why using normal gcc instead of i386-elf or i686-elf gcc makes it work
+ASM16?=i386-elf-as # useless
+CC16?=i386-elf-gcc # doesn't work
+LD16?=i386-elf-ld
+
+CFLAGS += -ffreestanding -m32 -g -c
+
+BUILD_DIR?=bin
+SRC_DIR?=src
+
+C_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.c $(SRC_DIR)/kernel/drivers/*.c)
+
+
+.PHONY: all os_image always clean
+
+
+all: os_image
+os_image: $(BUILD_DIR)/OS.bin
+
+always:
+	mkdir -p bin
+
+clean:
+	rm -r bin/*
+
+# The image
+$(BUILD_DIR)/OS.bin: always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
+	cat $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin  > $(BUILD_DIR)/OS.bin
+
+# Assembly Booting
+$(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
+	$(ASM) $(SRC_DIR)/boot/boot.asm -f bin -o $(BUILD_DIR)/boot.bin
+
+# transition from boot to kernel
+$(BUILD_DIR)/kernel_entry.o: $(SRC_DIR)/boot/kernel_entry.asm
+	$(ASM) $^ -f elf -o $@
+
+# the kernel
+$(BUILD_DIR)/kernel.o: $(SRC_DIR)/kernel/kernel.c
+	$(CC) $(CFLAGS) $^ -o $@
+
+# Sectors Filler
+$(BUILD_DIR)/zeroes.bin: $(SRC_DIR)/boot/zeroes.asm
+	$(ASM) $(SRC_DIR)/boot/zeroes.asm -f bin -o $(BUILD_DIR)/zeroes.bin
+
+
+$(BUILD_DIR)/full_kernel.bin: $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/kernel.o
+	$(LD16) -o $(BUILD_DIR)/full_kernel.bin -Ttext 0x1000 $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/kernel.o --oformat binary
