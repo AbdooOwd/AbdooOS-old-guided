@@ -49,7 +49,7 @@ I should also update my `Makefile`.
 
 ## Printing chars but not strings
 
-My kernel can print characters but no strings! When I use my `print_char` function, it prints
+My kernel can print characters but no strings\*! When I use my `print_char` function, it prints
 a beautiful char. But if I use my `print` function which prints a collection of `char`s, it displays
 nothing! I gotta do some researches and tests...
 
@@ -85,7 +85,7 @@ And now it's fixed! Because assigning a variable puts it in the stack, but using
 a value without it being a variable means it's in memory. This is why declaring a variable
 worked and directly using a string didn't work.
 
-> _(strings in C are collection of chars)_.
+> \* _(strings in C are collection of chars)_.
 
 ## C Linking Idea
 
