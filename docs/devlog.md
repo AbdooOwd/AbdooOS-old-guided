@@ -104,6 +104,12 @@ always have to specify where we wanna print, so let's code our **cursor control!
 _"What?"_ you say? Basically we'll just code a function that uses I/O ports to either
 get the cursor's offset, or set its offset.
 
+But what if I wanna print a string at a specific line? Then I'll code the `print_at` function.
+Oh wait! Can you smell that? I smell _optimizaiton_! Instead of repeating similar codes
+in both function `print` and `print_at`, we can make that if in `print_at` the column or row
+is zero or negative then we print directly in the cursor's offset. And so `print` uses `print_at`
+but with `-1` for the column and row.
+
 > By the way, I still have no idea what an I/O port is.
 
 > **Fun _(but interesting)_ fact:** An offset is not only the positions of the characters,
