@@ -12,8 +12,11 @@ CFLAGS += -ffreestanding -m32 -g -c
 BUILD_DIR?=bin
 SRC_DIR?=src
 
-C_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.c $(SRC_DIR)/kernel/drivers/*.c)
+C_SOURCES=$(wildcard $(SRC_DIR)/kernel/drivers/*.c $(SRC_DIR)/kernel/*.c)
 C_OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
+
+ASM_SOURCES=$(wildcard $(SRC_DIR)/boot/kernel/*.asm)
+ASM_OBJECTS=${ASM_SOURCES:.asm:.o}
 
 H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
 
@@ -24,21 +27,23 @@ all: os_image
 os_image: $(BUILD_DIR)/OS.bin
 
 always:
-	mkdir -p $(BUILD_DIR)/kernel/drivers
+	mkdir -p $(BUILD_DIR)
 
-clean:
+clean clear:
 	rm -r $(BUILD_DIR)/*
 
 # The image
 $(BUILD_DIR)/OS.bin: always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
-	cat $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin  > $(BUILD_DIR)/OS.bin
+	cat $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin > $(BUILD_DIR)/OS.bin
+# Add $(BUILD_DIR)/zeroes.bin to the left side to fill up the OS
+
 
 # Assembly Booting
 $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
 	$(ASM) $(SRC_DIR)/boot/boot.asm -f bin -o $(BUILD_DIR)/boot.bin
 
-# transition from boot to kernel
-$(BUILD_DIR)/kernel_entry.o: $(SRC_DIR)/boot/kernel_entry.asm
+# compiles all the assembly code
+$(BUILD_DIR)/%.o: $(SRC_DIR)/boot/kernel/%.asm
 	$(ASM) $^ -f elf -o $@
 
 # Concatenate all C files and header files into one mega_kernel.c
