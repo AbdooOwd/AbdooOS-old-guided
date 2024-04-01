@@ -67,7 +67,7 @@ char* my_string = "This is a string!";
 
 It works! So our problem is that in the boot sector, we're reading too few sectors,
 and we have that file `zeroes.asm` which fills up about 20 sectors worth of 0s.
-So instead of doing this in the boot sector:
+So instead of doing this in the boot sector _(`boot.asm`)_:
 
 ```asm
 mov bx, KERNEL_LOCATION
