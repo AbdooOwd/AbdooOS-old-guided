@@ -12,6 +12,8 @@ CFLAGS += -ffreestanding -m32 -g -c
 BUILD_DIR?=bin
 SRC_DIR?=src
 
+OS_FILENAME?=OS.iso
+
 
 C_SOURCES=$(wildcard $(SRC_DIR)/kernel/drivers/*.c $(SRC_DIR)/kernel/*.c)
 C_OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
@@ -27,7 +29,7 @@ H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
 
 all: os-image
 
-os-image: $(BUILD_DIR)/OS.bin
+os-image: $(BUILD_DIR)/$(OS_FILENAME)
 
 always:
 	mkdir -p $(BUILD_DIR)
@@ -37,8 +39,8 @@ clean clear:
 
 
 # The image
-$(BUILD_DIR)/OS.bin: always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
-	cat $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin > $(BUILD_DIR)/OS.bin
+$(BUILD_DIR)/$(OS_FILENAME): always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
+	cat $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin > $(BUILD_DIR)/$(OS_FILENAME)
 # Add '$(BUILD_DIR)/zeroes.bin' to the left side to fill up the OS
 
 # Assembly Booting
