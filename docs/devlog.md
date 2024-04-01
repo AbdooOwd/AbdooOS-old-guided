@@ -102,7 +102,7 @@ So I'll code the `print` function, how does it work? Easy! Pass it a string,
 `message`, then pass it it's x and y positions, or `col` and `row`. But we don't wanna
 always have to specify where we wanna print, so let's code our **cursor control!**.
 _"What?"_ you say? Basically we'll just code a function that uses I/O ports to either
-get the cursor's offset, or set its offset.
+get the cursor's offset\*, or set its offset.
 
 > By the way, I still have no idea what an I/O port is.
 
@@ -112,6 +112,6 @@ in both functions `print` and `print_at`, we can make that if in `print_at` the 
 is zero or negative then we print directly in the cursor's offset. And so `print` uses `print_at`
 but with `-1` for the column and row.
 
-> **Fun _(but interesting)_ fact:** An offset is not only the positions of the characters,
+> \* **Fun _(but interesting)_ fact:** An offset is not only the positions of the characters,
 > they are cells, if `offset % 2 == 0` it means that we're talking about an ASCII character
 > cell, but if not then we're dealing with a color cell _(i.e grey on black by default)_.
