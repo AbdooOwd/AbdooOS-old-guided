@@ -2,7 +2,7 @@
 const char* old_logo[3] = {
     "  _                   __   __ \n",
     " |_| |_   _|  _   _  |  | |__ \n",
-    " | | |_| |_| |_| |_| |__|  __|"
+    " | | |_| |_| |_| |_| |__|  __|\n"
 };
 
 const char* new_logo[6] = {
@@ -11,12 +11,12 @@ const char* new_logo[6] = {
     " | |_| | | |__     __| |    ____     ____    |   __   |  | |____\n",
     " |  _  | |  _ |   | _  |   | __ |   | __ |   |  |__|  |   |____ |\n",
     " | | | | | |_| | | |_| |  | |__| | | |__| |  |        |   _____| |\n",
-    " |_| |_| |____|   |____|   |____|   |____|    |______|   |______|"
+    " |_| |_| |____|   |____|   |____|   |____|    |______|   |______|\n"
 };
 
-void main_() {
+void reboot();
 
-    print(" > Kernel Entered Successfully!\n");
+void main_() {
 
     for (int i = 0; i < 6; i++) {
         print((char*)new_logo[i]);
@@ -27,4 +27,10 @@ void main_() {
     print(" - Welcome to AbdooOS!\n");
 
     return;
+}
+
+// maybe it works?
+void reboot() {
+    print("\n ] Rebooting...\n");
+    goto * 0x7c00;
 }
