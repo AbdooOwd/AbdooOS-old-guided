@@ -29,6 +29,15 @@ disk stuff with the BIOS, then just turns off the BIOS, which means no more inte
 and this to get into protected mode. And protected mode means 32-bits instead of 16-bits,
 and this means: **more memory! YAY!!**
 
+_"What does the boot sector do"_ you ask? Well it does plenty of things:
+
+-   It sets up the stack to use C code later and also cuz it's useful.
+-   Reads the disk for a kernel.
+-   Sets up the GDT to enter protected mode.
+-   Disable interrupts then enters protected mode to enter the kernel _(using `kernel_entry.asm`)_.
+-   Of course, this boot sector has the boot signature `0xAA55` at the end of it after
+    filling what's empty with zeroes.
+
 ## C code linked
 
 Ok, I linked the boot sector with the kernel. Cool! Now I can code in C! Left me to code
