@@ -13,8 +13,8 @@ int get_cursor();
 int handle_scrolling(int cursor_offset);
 
 void print_char(char c, int col, int row);
-void print_at(const char* message, int col, int row);
-void print(const char* message);
+void print_at(char* message, int col, int row);
+void print(char* message);
 void clear_screen();
 
 void memory_copy(char* source, char* dest, int no_bytes);
@@ -43,7 +43,8 @@ void print_char(char c, int col, int row) {
     set_cursor(offset);
 }
 
-void print_at(const char* message, int col, int row) {
+/* FUNCITON DOESN'T WORK (prints last char of the string) */
+void print_at(char* message, int col, int row) {
     if (col >= 0 && row >= 0) {
         set_cursor(get_offset(col, row));
     }
@@ -54,7 +55,7 @@ void print_at(const char* message, int col, int row) {
     }
 }
 
-void print(const char* message) {
+void print(char* message) {
     print_at(message, -1, -1);
 }
 
