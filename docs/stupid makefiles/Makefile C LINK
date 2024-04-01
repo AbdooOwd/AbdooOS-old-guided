@@ -2,6 +2,7 @@
 
 ASM?=nasm
 CC?=gcc
+LD?=ld
 
 ASM16?=i386-elf-as
 CC16?=i386-elf-gcc
@@ -13,7 +14,8 @@ BUILD_DIR?=bin
 SRC_DIR?=src
 
 C_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.c $(SRC_DIR)/kernel/drivers/*.c)
-C_OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
+#C_OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
+C_OBJECTS=${C_SOURCES:.c=.o}
 
 H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
 
@@ -41,18 +43,14 @@ $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
 $(BUILD_DIR)/kernel_entry.o: $(SRC_DIR)/boot/kernel_entry.asm
 	$(ASM) $^ -f elf -o $@
 
-# Concatenate all C files and header files into one mega_kernel.c
-$(BUILD_DIR)/mega_kernel.c: $(H_SOURCES) $(C_SOURCES) 
-	cat $^ > $@
 
-# Compile mega_kernel.c to object file
-$(BUILD_DIR)/mega_kernel.o: $(BUILD_DIR)/mega_kernel.c
+%.o : %.c
 	$(CC) $(CFLAGS) $< -o $@
 
 # Sectors Filler
 $(BUILD_DIR)/zeroes.bin: $(SRC_DIR)/boot/zeroes.asm
 	$(ASM) $(SRC_DIR)/boot/zeroes.asm -f bin -o $(BUILD_DIR)/zeroes.bin
 
-# Link boot code, kernel entry, and mega_kernel.o
-$(BUILD_DIR)/full_kernel.bin: $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/mega_kernel.o
-	$(LD16) -o $(BUILD_DIR)/full_kernel.bin -Ttext 0x1000 $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/mega_kernel.o --oformat binary
+
+$(BUILD_DIR)/full_kernel.bin: ${C_OBJECTS} $(BUILD_DIR)/kernel_entry.o 
+	$(LD16) -o $@ -Ttext 0x1000 $< --oformat binary
