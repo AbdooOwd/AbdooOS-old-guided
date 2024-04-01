@@ -65,7 +65,25 @@ instead of:
 char* my_string = "This is a string!";
 ```
 
-It works! So our problem is that we're
+It works! So our problem is that in the boot sector, we're reading too few sectors,
+and we have that file `zeroes.asm` which fills up about 20 sectors worth of 0s.
+So instead of doing this in the boot sector:
+
+```asm
+mov bx, KERNEL_LOCATION
+mov dh, 2 ; in zeroes.asm we write about 20 sectors worth of bytes
+```
+
+We do this:
+
+```asm
+mov bx, KERNEL_LOCATION
+mov dh, 20 ; in zeroes.asm we write about 20 sectors worth of bytes
+```
+
+And now it's fixed! Because assigning a variable puts it in the stack, but using
+a value without it being a variable means it's in memory. This is why declaring a variable
+worked and directly using a string didn't work.
 
 > _(strings in C are collection of chars)_.
 
