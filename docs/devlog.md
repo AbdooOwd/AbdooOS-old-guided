@@ -115,3 +115,5 @@ but with `-1` for the column and row.
 > \* **Fun _(but interesting)_ fact:** An offset is not only the positions of the characters,
 > they are cells, if `offset % 2 == 0` it means that we're talking about an ASCII character
 > cell, but if not then we're dealing with a color cell _(i.e grey on black by default)_.
+
+I added scrolling, I don't how this works. Just gonna `ctrl + c` `ctrl + v`.
