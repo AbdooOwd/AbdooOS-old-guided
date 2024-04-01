@@ -12,6 +12,7 @@ CFLAGS += -ffreestanding -m32 -g -c
 BUILD_DIR?=bin
 SRC_DIR?=src
 
+
 C_SOURCES=$(wildcard $(SRC_DIR)/kernel/drivers/*.c $(SRC_DIR)/kernel/*.c)
 C_OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
 
@@ -20,11 +21,13 @@ ASM_OBJECTS=${ASM_SOURCES:.asm:.o}
 
 H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
 
-.PHONY: all os_image always clean
 
-all: os_image
 
-os_image: $(BUILD_DIR)/OS.bin
+.PHONY: all os-image always clean
+
+all: os-image
+
+os-image: $(BUILD_DIR)/OS.bin
 
 always:
 	mkdir -p $(BUILD_DIR)
@@ -32,11 +35,11 @@ always:
 clean clear:
 	rm -r $(BUILD_DIR)/*
 
+
 # The image
 $(BUILD_DIR)/OS.bin: always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
 	cat $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin > $(BUILD_DIR)/OS.bin
-# Add $(BUILD_DIR)/zeroes.bin to the left side to fill up the OS
-
+# Add '$(BUILD_DIR)/zeroes.bin' to the left side to fill up the OS
 
 # Assembly Booting
 $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
