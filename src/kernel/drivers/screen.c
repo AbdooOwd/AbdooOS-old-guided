@@ -1,6 +1,7 @@
 // #include "screen.h"
 // #include "../core.h"
 
+// "low_level.c"
 unsigned char port_byte_in(unsigned short port);
 void port_byte_out(unsigned short port, unsigned char data);
 unsigned short port_word_in(unsigned short port);
@@ -9,16 +10,17 @@ void port_word_out(unsigned short port, unsigned short data);
 int get_offset(int col, int row);
 void set_cursor(int offset);
 int get_cursor();
+int handle_scrolling(int cursor_offset);
 
 void print_char(char c, int col, int row);
 void print_at(const char* message, int col, int row);
 void print(const char* message);
 void clear_screen();
 
-
+void memory_copy(char* source, char* dest, int no_bytes);
 
 void print_char(char c, int col, int row) {
-    unsigned char* vid = (char*)0xb8000;
+    unsigned char* vid = (char*)VIDEO_ADDRESS;
     int offset;
 
     if (col >= 0 && row >= 0) {
@@ -35,7 +37,10 @@ void print_char(char c, int col, int row) {
     else
         vid[offset] = c;
 
-    set_cursor(offset + 2);
+    offset += 2;
+    offset = handle_scrolling(offset);
+
+    set_cursor(offset);
 }
 
 void print_at(const char* message, int col, int row) {
@@ -53,16 +58,6 @@ void print(const char* message) {
     print_at(message, -1, -1);
 }
 
-void clear_screen() {
-    unsigned char* vidmem = (char*)0xb8000;
-    unsigned int j = 0;
-    while (j < MAX_COLS * MAX_ROWS * 2) {
-        vidmem[j] = ' ';
-        vidmem[j + 1] = 0x07;
-        j = j + 2;
-    }
-}
-
 void set_cursor(int offset) {
     offset /= 2;
     port_byte_out(REG_SCREEN_CTRL, 14);
@@ -78,6 +73,46 @@ int get_cursor() {
     offset += port_byte_in(REG_SCREEN_DATA);
 
     return offset * 2;
+}
+
+int handle_scrolling(int cursor_offset) {
+
+    unsigned char* vidmem = (char*)VIDEO_ADDRESS;
+
+    if (cursor_offset < MAX_ROWS * MAX_COLS * 2) {
+        return cursor_offset;
+    }
+
+    int i;
+    for (i = 1; i < MAX_ROWS; i++) {
+        memory_copy(get_offset(0, i) + vidmem,
+            get_offset(0, i - 1) + vidmem,
+            MAX_COLS * 2
+        );
+    }
+
+    /* Blank the last line by setting all bytes to 0 */
+    char* last_line = get_offset(0, MAX_ROWS - 1) + vidmem;
+
+    for (i = 0; i < MAX_COLS * 2; i++) {
+        last_line[i] = 0;
+    }
+    cursor_offset -= 2 * MAX_COLS;
+
+    return cursor_offset;
+}
+
+void clear_screen() {
+    int row = 0;
+    int col = 0;
+
+    for (row = 0; row < MAX_ROWS; row++) {
+        for (col = 0; col < MAX_COLS; col++) {
+            print_char(' ', col, row);
+        }
+    }
+
+    set_cursor(get_offset(0, 0));
 }
 
 int get_offset(int col, int row) {
