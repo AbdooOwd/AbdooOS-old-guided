@@ -108,7 +108,7 @@ get the cursor's offset, or set its offset.
 
 But what if I wanna print a string at a specific line? Then I'll code the `print_at` function.
 Oh wait! Can you smell that? I smell _optimizaiton_! Instead of repeating similar codes
-in both function `print` and `print_at`, we can make that if in `print_at` the column or row
+in both functions `print` and `print_at`, we can make that if in `print_at` the column or row
 is zero or negative then we print directly in the cursor's offset. And so `print` uses `print_at`
 but with `-1` for the column and row.
 
