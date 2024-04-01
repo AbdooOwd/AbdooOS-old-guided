@@ -97,8 +97,8 @@ the C files' content into one big C file called `mega_kernel.c`. I'm smart (: (:
 
 ## Basic Screen Drivers
 
-Alright, printing chars is cute and all. But it'd be better to print string instantly
-with a string. So I'll code the `print` function, how does it work? Easy! Pass it a string,
+Alright, printing chars is cute and all. But it'd be better to print a string instantly.
+So I'll code the `print` function, how does it work? Easy! Pass it a string,
 `message`, then pass it it's x and y positions, or `col` and `row`. But we don't wanna
 always have to specify where we wanna print, so let's code our **cursor control!**.
 _"What?"_ you say? Basically we'll just code a function that uses I/O ports to either
