@@ -14,7 +14,7 @@ An x86 OS I coded from scratch with the help of these resources:
     -   If you use Linux, then you're done (:
 -   Packages:
     -   `nasm` to compile your assembly code.
-    -   `gcc` to compile your code _(`gcc-g++` for Cygwin)_.
+    -   `gcc` to compile your C code _(`gcc-g++` for Cygwin)_.
     -   `make` to build the project in one command.
     -   `i386-elf-ld` to link your code.
         -   This cannot be downloaded, you have to
@@ -45,3 +45,9 @@ but I recommend using Qemu.
         because linking correctly wouldn't work for me.
         Please refer to some tutorials/resources like
         the [OS-Dev Wiki](#) for more information.
+-   Now he have the files:
+    -   `boot.bin` _(our boot sector)_.
+    -   `full_kernel.bin` _(our kernel entry + actual kernel)_.
+    -   `zeroes.bin` _(a 512 bytes times 20 worth of 0s)_.
+-   We concatenate these files into one beautiful file called
+    **`OS.iso`** _(or whatever filename you defined for the OS' image)_.
