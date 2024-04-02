@@ -32,13 +32,26 @@ void print_char(char c, int col, int row) {
 
     if (c == '\n') {
         int rows = offset / (2 * MAX_COLS);
-        offset = get_offset(MAX_COLS - 1, rows);
+        offset = get_offset(MAX_COLS, rows);
     }
-    else
+    else {
         vid[offset] = c;
+        offset += 2;
+    }
 
-    offset += 2;
-    offset = handle_scrolling(offset);
+    //offset = handle_scrolling(offset);
+    if (offset >= MAX_ROWS * MAX_COLS * 2) {
+        int i;
+        for (i = 1; i < MAX_ROWS; i++)
+            memory_copy(get_offset(0, i) + vid,
+                get_offset(0, i - 1) + vid,
+                MAX_COLS * 2);
+        char* last_line = get_offset(0, MAX_ROWS - 1) + vid;
+        for (i = 0; i < MAX_COLS * 2; i++)
+            if (i % 2 == 0) // so we don't hit the attribute byte (color)
+                last_line[i] = 0;
+        offset -= 2 * MAX_COLS;
+    }
 
     set_cursor(offset);
 }
