@@ -1,5 +1,5 @@
-// // #include "screen.h"
-// // #include "../core.h"
+// // // #include "screen.h"
+// // // #include "../core.h"
 
 // "low_level.c"
 unsigned char port_byte_in(unsigned short port);
@@ -64,6 +64,13 @@ void print(char* message) {
     print_at(message, -1, -1);
 }
 
+void print_backspace() {
+    int offset = get_cursor() - 2;
+    int row = get_offset_row(offset);
+    int col = get_offset_col(offset);
+    print_char(0x08, col, row);
+}
+
 void set_cursor(int offset) {
     offset /= 2;
     port_byte_out(REG_SCREEN_CTRL, 14);
@@ -114,6 +121,6 @@ void clear_screen() {
     set_cursor(get_offset(0, 0));
 }
 
-int get_offset(int col, int row) {
-    return (row * MAX_COLS + col) * 2;
-}
+int get_offset(int col, int row) { return (row * MAX_COLS + col) * 2; }
+int get_offset_row(int offset) { return offset / (2 * MAX_COLS); }
+int get_offset_col(int offset) { return (offset - (get_offset_row(offset) * 2 * MAX_COLS)) / 2; }

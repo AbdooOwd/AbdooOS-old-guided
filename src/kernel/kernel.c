@@ -1,5 +1,5 @@
-// #include "./drivers/screen.h"
-// #include "util.h"
+// // #include "./drivers/screen.h"
+// // #include "util.h"
 
 /* Reboots System by going back to the beginning of boot sector (WIP) */
 extern void reboot_system();
@@ -31,8 +31,19 @@ void main_() {
     print(" - Welcome to AbdooOS!\n");
 
     isr_install();
+    irq_install();
 
     asm volatile("sti");
 
     init_keyboard();
+}
+
+void user_input(char* input) {
+    if (strcmp(input, "END") == 0) {
+        print("Stopping the CPU. Bye!\n");
+        asm volatile("hlt");
+    }
+    print("You said: ");
+    print(input);
+    print("\n> ");
 }
