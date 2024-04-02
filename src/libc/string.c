@@ -40,10 +40,18 @@ void append(char s[], char n) {
     s[len + 1] = '\0';
 }
 
+void new_backspace() {
+    unsigned char* video = (unsigned char*)VIDEO_ADDRESS;
+    int cursor_offset = get_cursor();
+    video[cursor_offset - 2] = '\0'; // set the previous char to empty (null)
+    set_cursor(cursor_offset - 2);
+}
+
 void backspace(char s[]) {
     int len = strlen(s); // type: ignore
-    s[len - 1] = 0;
+    s[len - 1] = '\0';
 }
+
 
 /* K&R
  * Returns <0 if s1<s2, 0 if s1==s2, >0 if s1>s2 */

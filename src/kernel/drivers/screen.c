@@ -68,7 +68,8 @@ void print_backspace() {
     int offset = get_cursor() - 2;
     int row = get_offset_row(offset);
     int col = get_offset_col(offset);
-    print_char(0x08, col, row);
+    print_char(0, col, row);
+    set_cursor(offset);
 }
 
 void set_cursor(int offset) {
