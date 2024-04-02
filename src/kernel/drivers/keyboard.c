@@ -31,8 +31,10 @@ static void keyboard_callback(registers_t regs) {
 
     if (scancode > SC_MAX) return;
     if (scancode == BACKSPACE) {
-        backspace(key_buffer); // type: ignore
-        print_backspace();
+        if (strlen(key_buffer) != 0) {
+            backspace(key_buffer); // type: ignore
+            print_backspace();
+        }
     }
     else if (scancode == ENTER) {
         print("\n");
