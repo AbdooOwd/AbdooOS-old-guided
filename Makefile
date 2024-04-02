@@ -15,19 +15,19 @@ SRC_DIR?=src
 OS_FILENAME?=OS.iso
 
 
-C_SOURCES=$(wildcard $(SRC_DIR)/kernel/drivers/*.c $(SRC_DIR)/kernel/*.c)
-C_OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
+C_SOURCES=$(wildcard $(SRC_DIR)/kernel/drivers/*.c $(SRC_DIR)/kernel/*.c $(SRC_DIR)/cpu/*.c)
+C_OBJECTS=${C_SOURCES:.c=.o}
 
-ASM_SOURCES=$(wildcard $(SRC_DIR)/boot/kernel/*.asm)
-ASM_OBJECTS=${ASM_SOURCES:.asm:.o}
+ASM_SOURCES=$(wildcard $(SRC_DIR)/boot/kernel/*.asm $(SRC_DIR)/cpu/*.asm)
+ASM_OBJECTS=${ASM_SOURCES:.asm=.o}
 
-H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
+H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h $(SRC_DIR)/cpu/*.h)
 
 
 
 .PHONY: all os-image always clean oops
 
-all: os-image
+all: always os-image
 
 os-image: $(BUILD_DIR)/$(OS_FILENAME)
 
@@ -39,20 +39,20 @@ clean clear:
 
 # in case it puts the .o files in the source directory
 oops:
-	rm -r $(SRC_DIR)/kernel/*.o
+	rm -r $(SRC_DIR)/*.o
 
 # The image
-$(BUILD_DIR)/$(OS_FILENAME): always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
+$(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
 	cat $^ > $@
 # Add '$(BUILD_DIR)/zeroes.bin' to the left side to fill up the OS
 
 # Assembly Booting
 $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
-	$(ASM) $(SRC_DIR)/boot/boot.asm -f bin -o $(BUILD_DIR)/boot.bin
+	$(ASM) $< -f bin -o $@
 
 # compiles all the assembly code
-$(BUILD_DIR)/%.o: $(SRC_DIR)/boot/kernel/%.asm
-	$(ASM) $^ -f elf -o $@
+%.o: %.asm $(ASM_OBJECTS)
+	$(ASM) $< -f elf -o $@
 
 # Concatenate all C files and header files into one mega_kernel.c
 $(BUILD_DIR)/mega_kernel.c: $(H_SOURCES) $(C_SOURCES) 
@@ -64,8 +64,8 @@ $(BUILD_DIR)/mega_kernel.o: $(BUILD_DIR)/mega_kernel.c
 
 # Sectors Filler
 $(BUILD_DIR)/zeroes.bin: $(SRC_DIR)/boot/zeroes.asm
-	$(ASM) $(SRC_DIR)/boot/zeroes.asm -f bin -o $(BUILD_DIR)/zeroes.bin
+	$(ASM) $< -f bin -o $@
 
 # Link boot code, kernel entry, and mega_kernel.o
-$(BUILD_DIR)/full_kernel.bin: $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/mega_kernel.o
-	$(LD16) -o $@ -Ttext 0x1000 $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/mega_kernel.o --oformat binary
+$(BUILD_DIR)/full_kernel.bin: $(ASM_OBJECTS) $(BUILD_DIR)/mega_kernel.o
+	$(LD16) -o $@ -Ttext 0x1000 $^ --oformat binary -Map $(BUILD_DIR)/linked.map
