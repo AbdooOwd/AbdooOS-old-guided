@@ -27,7 +27,7 @@ H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h $(SRC_D
 
 
 
-.PHONY: all os-image always clean oops
+.PHONY: all os-image always clean
 
 all: always os-image
 
@@ -39,9 +39,6 @@ always:
 clean clear:
 	rm -r $(BUILD_DIR)/* 
 	rm -r ${OBJ}
-# in case it puts the .o files in the source directory
-oops:
-	rm -r $(SRC_DIR)/*.o
 
 # The image
 $(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
