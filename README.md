@@ -55,8 +55,6 @@ but I recommend using Qemu.
 
 ## Available `make` commands
 
--   `oops` : in case you compiled objects _( `.o` files)_
-    in the source directory. This command will delete them.
 -   `os-image` : default command to build the OS' image.
 -   `clean` or `clear` : delete the `bin`
     directory's content.
