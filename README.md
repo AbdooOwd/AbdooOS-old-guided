@@ -1,6 +1,6 @@
 # AbdooOS
 
-An x86 OS I coded from scratch with the help these resources:
+An x86 OS I coded from scratch with the help of these resources:
 
 -   [NanoByte](https://www.youtube.com/@nanobyte-dev).
 -   [Daedalus Community Youtube Channel](https://www.youtube.com/@DaedalusCommunity).
