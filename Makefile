@@ -43,7 +43,7 @@ oops:
 
 # The image
 $(BUILD_DIR)/$(OS_FILENAME): always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
-	cat $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin > $(BUILD_DIR)/$(OS_FILENAME)
+	cat $^ > $@
 # Add '$(BUILD_DIR)/zeroes.bin' to the left side to fill up the OS
 
 # Assembly Booting
