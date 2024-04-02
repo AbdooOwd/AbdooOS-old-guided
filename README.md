@@ -58,3 +58,5 @@ but I recommend using Qemu.
 -   `os-image` : default command to build the OS' image.
 -   `clean` or `clear` : delete the `bin`
     directory's content.
+-   `clean-obj` or `clear-obj` : deletes every `.o` _(i.e object files)_
+    from the `src` directory.

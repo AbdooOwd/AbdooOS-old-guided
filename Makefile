@@ -36,9 +36,12 @@ os-image: $(BUILD_DIR)/$(OS_FILENAME)
 always:
 	mkdir -p $(BUILD_DIR)/asm
 
-clean clear:
-	rm -r $(BUILD_DIR)/* 
+
+clean-obj clear-obj:
 	rm -r ${OBJ}
+
+clean clear: clean-obj
+	rm -r $(BUILD_DIR)/*
 
 # The image
 $(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
