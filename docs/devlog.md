@@ -129,8 +129,9 @@ At least now I know how to use functions between assembly and C!
 How? Kind of easy actually! _(if you don't use arguments and return)_:
 
 -   If the function is from assembly, add a `_` at the **start** of the function's name.
-    and to use it from C, just write the function's name without that underscore.
--   If the function is from C, then add a `_` at the **end** of the function's name.
+    And to use it from C, just write the function's name without that underscore.
+-   If the function is from C, then add a `_` at the **end** of the function's name
+    _(adding an underscore at the end is only for the main function)_.
     And to use it from Assembly, add an underscore at the start of the function's name.
 
 Uhhhh, it's extremly weird. When testing those "interrupts" by doing:
@@ -141,3 +142,22 @@ __asm__ __volatile__("int $3")
 ```
 
 The OS just keep refreshing its screen. Weird really.
+
+Alright! Interrupts still don't work... BUT NOW I KNOW HOW TO GIVE ARGUMENTS
+TO FUNCTIONS THAT ARE IN C FORM ASSEMBLY!!!1!!
+Let's take our `print` function as an example _(from `src/kernel/drivers/screen.c`)_.
+It takes a `char*` as argument. So what we do, is do this
+_(read the comments for clarification)_:
+
+```asm
+[extern _print]         ; to get the print function from our C file
+mov ebx, our_message    ; put our message in a register so we push it to the stack later
+push ebx                ; we push it to the stack so it is taken as argument
+
+call _print             ; actually call the function with our arugment already given
+
+; this is the message we'll print (0x0A is for a new line)
+our_message: db "Hello from Assembly!", 0x0A, 0
+```
+
+This is actually kind of easy! Next step: how to get the return
