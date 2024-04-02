@@ -7,3 +7,13 @@
 
 #define REG_SCREEN_CTRL 0x3D4
 #define REG_SCREEN_DATA 0x3D5
+
+int get_offset(int col, int row);
+void set_cursor(int offset);
+int get_cursor();
+int handle_scrolling(int cursor_offset);
+
+void print_char(char c, int col, int row);
+void print_at(char* message, int col, int row);
+void print(char* message);
+void clear_screen();
