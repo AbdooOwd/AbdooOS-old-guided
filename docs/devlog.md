@@ -23,6 +23,7 @@ _(also to do that technic called **"Rubber Ducking"**, search about it)_.
     -   [Coding Interrupts](#coding-interrupts)
     -   [Functions Cross-over](#functions-cross-over)
     -   [Scrolling Fix](#scrolling)
+    -   [Keyboard Input](#keyboard-input)
 
 # The Start - [31/03/2024]
 
@@ -172,3 +173,9 @@ This is actually kind of easy! Next step: how to get the return.
 
 Alright, STILL NO INTERRUPTS... But now I fixed scrolling! So if I write too much text now,
 it will normally scroll. I'm a genius _(haha no)_.
+
+## Keyboard input
+
+LEZGOOO!!!! I HAVE A WORKING SHELL THAT I (**ctrl+c** **ctrl+v**)'d.
+Now I gotta code some basic commands and learn more C.
+I suck at C. I need to learn C. I **MUST** learn **C**.
