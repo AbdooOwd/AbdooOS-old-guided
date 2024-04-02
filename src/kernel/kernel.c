@@ -14,6 +14,10 @@ const char* new_logo[6] = {
     " |_| |_| |____|   |____|   |____|   |____|    |______|   |______|\n"
 };
 
+void print_char(char c, int col, int row);
+void print_at(char* message, int col, int row);
+void print(char* message);
+void clear_screen();
 void reboot();
 
 void main_() {

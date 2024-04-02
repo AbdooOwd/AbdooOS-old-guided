@@ -25,7 +25,7 @@ H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
 
 
 
-.PHONY: all os-image always clean
+.PHONY: all os-image always clean oops
 
 all: os-image
 
@@ -37,6 +37,9 @@ always:
 clean clear:
 	rm -r $(BUILD_DIR)/*
 
+# in case it puts the .o files in the source directory
+oops:
+	rm -r $(SRC_DIR)/kernel/*.o
 
 # The image
 $(BUILD_DIR)/$(OS_FILENAME): always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
@@ -65,4 +68,4 @@ $(BUILD_DIR)/zeroes.bin: $(SRC_DIR)/boot/zeroes.asm
 
 # Link boot code, kernel entry, and mega_kernel.o
 $(BUILD_DIR)/full_kernel.bin: $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/mega_kernel.o
-	$(LD16) -o $(BUILD_DIR)/full_kernel.bin -Ttext 0x1000 $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/mega_kernel.o --oformat binary
+	$(LD16) -o $@ -Ttext 0x1000 $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/mega_kernel.o --oformat binary

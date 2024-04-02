@@ -13,11 +13,11 @@ CFLAGS += -ffreestanding -m32 -g -c
 BUILD_DIR?=bin
 SRC_DIR?=src
 
-C_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.c $(SRC_DIR)/kernel/drivers/*.c)
+C_SOURCES=$(wildcard $(SRC_DIR)/kernel/low_level.c $(SRC_DIR)/kernel/drivers/*.c $(SRC_DIR)/kernel/*.c)
 #C_OBJECTS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SOURCES))
 C_OBJECTS=${C_SOURCES:.c=.o}
 
-H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
+HEADERS=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h)
 
 .PHONY: all os_image always clean
 
@@ -28,8 +28,11 @@ os_image: $(BUILD_DIR)/OS.bin
 always:
 	mkdir -p $(BUILD_DIR)/kernel/drivers
 
-clean:
+clean clear:
 	rm -r $(BUILD_DIR)/*
+
+oops:
+	rm -r $(SRC_DIR)/kernel/*.o $(SRC_DIR)/kernel/drivers/*.o
 
 # The image
 $(BUILD_DIR)/OS.bin: always $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
@@ -40,11 +43,11 @@ $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
 	$(ASM) $(SRC_DIR)/boot/boot.asm -f bin -o $(BUILD_DIR)/boot.bin
 
 # transition from boot to kernel
-$(BUILD_DIR)/kernel_entry.o: $(SRC_DIR)/boot/kernel_entry.asm
+$(BUILD_DIR)/kernel_entry.o: $(SRC_DIR)/boot/kernel/kernel_entry.asm
 	$(ASM) $^ -f elf -o $@
 
 
-%.o : %.c
+%.o : %.c {HEADERS}
 	$(CC) $(CFLAGS) $< -o $@
 
 # Sectors Filler
