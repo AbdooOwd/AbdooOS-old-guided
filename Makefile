@@ -32,11 +32,12 @@ all: always os-image
 os-image: $(BUILD_DIR)/$(OS_FILENAME)
 
 always:
-	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)/asm
 
 clean clear:
-	rm -r $(BUILD_DIR)/*
-
+	rm -r $(BUILD_DIR)/* 
+	rm -r $(SRC_DIR)/boot/kernel/*.o
+	rm -r $(SRC_DIR)/cpu/*.o
 # in case it puts the .o files in the source directory
 oops:
 	rm -r $(SRC_DIR)/*.o
@@ -51,7 +52,7 @@ $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
 	$(ASM) $< -f bin -o $@
 
 # compiles all the assembly code
-%.o: %.asm $(ASM_OBJECTS)
+%.o: %.asm
 	$(ASM) $< -f elf -o $@
 
 # Concatenate all C files and header files into one mega_kernel.c
