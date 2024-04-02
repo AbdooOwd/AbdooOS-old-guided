@@ -21,6 +21,8 @@ C_OBJECTS=${C_SOURCES:.c=.o}
 ASM_SOURCES=$(wildcard $(SRC_DIR)/boot/kernel/*.asm $(SRC_DIR)/cpu/*.asm)
 ASM_OBJECTS=${ASM_SOURCES:.asm=.o}
 
+OBJ=$(wildcard $(SRC_DIR)/*.o $(SRC_DIR)/boot/kernel/*.o $(SRC_DIR)/cpu/*.o $(SRC_DIR)/kernel/*.o $(SRC_DIR)/kernel/drivers/*.o)
+
 H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h $(SRC_DIR)/cpu/*.h)
 
 
@@ -36,8 +38,7 @@ always:
 
 clean clear:
 	rm -r $(BUILD_DIR)/* 
-	rm -r $(SRC_DIR)/boot/kernel/*.o
-	rm -r $(SRC_DIR)/cpu/*.o
+	rm -r ${OBJ}
 # in case it puts the .o files in the source directory
 oops:
 	rm -r $(SRC_DIR)/*.o
