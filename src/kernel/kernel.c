@@ -22,7 +22,7 @@ const char* thick_logo[6] = {
 
 void main_() {
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < sizeof(thick_logo) / 4; i++) {
         print((char*)thick_logo[i]);
     }
 
