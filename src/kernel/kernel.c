@@ -3,7 +3,7 @@
 
 /* Reboots System by going back to the beginning of boot sector (WIP) */
 extern void reboot_system();
-void check_action(char* le_input);
+int check_action(char* le_input);
 void clear_screen();
 
 const char* small_logo[3] = {
@@ -41,21 +41,32 @@ void main_() {
     print("> ");
 }
 
+// for handling commands (WIP)
+char* already_action = "";
+
 void user_input(char* input) {
-    check_action(input);
-    print("You said: ");
+    int can_action = check_action(input);
+    if (can_action == 0) {
+        print("Unknown Command: ");
+    }
     print(input);
     print("\n> ");
 }
 
-void check_action(char* le_input) {
+int check_action(char* le_input) {
     if (strcmp(le_input, "END") == 0) {
         print("Stopping the CPU. Bye!\n");
         asm volatile("hlt");
+
+        return 1;
     }
 
     if (strcmp(le_input, "REBOOT") == 0) {
         print("Rebooting...\n");
         goto * 0x0;
+
+        return 1;
     }
+
+    return 0;
 }

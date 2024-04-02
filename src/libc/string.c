@@ -62,3 +62,34 @@ int strcmp(char s1[], char s2[]) {
     }
     return s1[i] - s2[i];
 }
+
+char* get_first_split(char* str, char split) {
+    char* le_word = "";
+    int i = 0;
+    while (str[i] != split && str[i] != '\0') {
+        le_word += str[i];
+        i++;
+    }
+
+    return le_word;
+}
+
+void merge_strings(char* str1, char* str2, char* result) {
+    int i = 0, j = 0;
+
+    // Copy characters from str1 to result
+    while (str1[i] != '\0') {
+        result[i] = str1[i];
+        i++;
+    }
+
+    // Copy characters from str2 to result
+    while (str2[j] != '\0') {
+        result[i] = str2[j];
+        i++;
+        j++;
+    }
+
+    // Null-terminate the result string
+    result[i] = '\0';
+}
