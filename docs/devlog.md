@@ -117,3 +117,27 @@ but with `-1` for the column and row.
 > cell, but if not then we're dealing with a color cell _(i.e grey on black by default)_.
 
 I added scrolling, I don't how this works. Just gonna `ctrl + c` `ctrl + v`.
+
+# Interrupts - [02/04/2024]
+
+## Coding interrupts
+
+Until now, I don't know what I'm doing. Just copying \: .
+
+Alright, about 3 hours into it... I still don't understand anything. But, hey!
+At least now I know how to use functions between assembly and C!
+How? Kind of easy actually! _(if you don't use arguments and return)_:
+
+-   If the function is from assembly, add a `_` at the **start** of the function's name.
+    and to use it from C, just write the function's name without that underscore.
+-   If the function is from C, then add a `_` at the **end** of the function's name.
+    And to use it from Assembly, add an underscore at the start of the function's name.
+
+Uhhhh, it's extremly weird. When testing those "interrupts" by doing:
+
+```c
+__asm__ __volatile__("int $2")
+__asm__ __volatile__("int $3")
+```
+
+The OS just keep refreshing its screen. Weird really.
