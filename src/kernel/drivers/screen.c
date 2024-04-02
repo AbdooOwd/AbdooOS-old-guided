@@ -39,19 +39,8 @@ void print_char(char c, int col, int row) {
         offset += 2;
     }
 
-    //offset = handle_scrolling(offset);
-    if (offset >= MAX_ROWS * MAX_COLS * 2) {
-        int i;
-        for (i = 1; i < MAX_ROWS; i++)
-            memory_copy(get_offset(0, i) + vid,
-                get_offset(0, i - 1) + vid,
-                MAX_COLS * 2);
-        char* last_line = get_offset(0, MAX_ROWS - 1) + vid;
-        for (i = 0; i < MAX_COLS * 2; i++)
-            if (i % 2 == 0) // so we don't hit the attribute byte (color)
-                last_line[i] = 0;
-        offset -= 2 * MAX_COLS;
-    }
+    offset = handle_scrolling(offset);
+
 
     set_cursor(offset);
 }
@@ -96,25 +85,18 @@ int handle_scrolling(int cursor_offset) {
 
     unsigned char* vidmem = (char*)VIDEO_ADDRESS;
 
-    if (cursor_offset < MAX_ROWS * MAX_COLS * 2) {
-        return cursor_offset;
+    if (cursor_offset >= MAX_ROWS * MAX_COLS * 2) {
+        int i;
+        for (i = 1; i < MAX_ROWS; i++)
+            memory_copy(get_offset(0, i) + vidmem,
+                get_offset(0, i - 1) + vidmem,
+                MAX_COLS * 2);
+        char* last_line = get_offset(0, MAX_ROWS - 1) + vidmem;
+        for (i = 0; i < MAX_COLS * 2; i++)
+            if (i % 2 == 0) // so we don't hit the attribute byte (color)
+                last_line[i] = 0;
+        cursor_offset -= 2 * MAX_COLS;
     }
-
-    int i;
-    for (i = 1; i < MAX_ROWS; i++) {
-        memory_copy(get_offset(0, i) + vidmem,
-            get_offset(0, i - 1) + vidmem,
-            MAX_COLS * 2
-        );
-    }
-
-    /* Blank the last line by setting all bytes to 0 */
-    char* last_line = get_offset(0, MAX_ROWS - 1) + vidmem;
-
-    for (i = 0; i < MAX_COLS * 2; i++) {
-        last_line[i] = 0;
-    }
-    cursor_offset -= 2 * MAX_COLS;
 
     return cursor_offset;
 }
