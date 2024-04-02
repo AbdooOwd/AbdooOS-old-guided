@@ -29,4 +29,10 @@ void main_() {
     print("\n\n");
 
     print(" - Welcome to AbdooOS!\n");
+
+    isr_install();
+
+    asm volatile("sti");
+
+    init_keyboard();
 }

@@ -23,7 +23,7 @@ ASM_OBJECTS=${ASM_SOURCES:.asm=.o}
 
 OBJ=$(wildcard $(SRC_DIR)/*.o $(SRC_DIR)/boot/kernel/*.o $(SRC_DIR)/cpu/*.o $(SRC_DIR)/kernel/*.o $(SRC_DIR)/kernel/drivers/*.o)
 
-H_SOURCES=$(wildcard $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h $(SRC_DIR)/cpu/*.h)
+H_SOURCES=$(wildcard $(SRC_DIR)/kernel/core/*.h $(SRC_DIR)/kernel/*.h $(SRC_DIR)/kernel/drivers/*.h $(SRC_DIR)/cpu/*.h)
 
 
 
