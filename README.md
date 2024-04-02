@@ -49,5 +49,14 @@ but I recommend using Qemu.
     -   `boot.bin` _(our boot sector)_.
     -   `full_kernel.bin` _(our kernel entry + actual kernel)_.
     -   `zeroes.bin` _(a 512 bytes times 20 worth of 0s)_.
--   We concatenate these files into one beautiful file called
-    **`OS.iso`** _(or whatever filename you defined for the OS' image)_.
+-   We concatenate these files into one
+    beautiful file called **`OS.iso`**
+    _(or whatever filename you defined for the OS' image)_.
+
+## Available `make` commands
+
+-   `oops` : in case you compile obects _( `.o` files)_
+    in the source directory. This command will delete them.
+-   `os-image` : default command to build the OS' image.
+-   `clean` or `clear` : delete the `bin`
+    directory's content.
