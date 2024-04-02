@@ -19,6 +19,10 @@ _(also to do that technic called **"Rubber Ducking"**, search about it)_.
     -   [C Linking Idea](#c-linking-idea)
 -   [The Screen](#the-screen---01042024)
     -   [Basic Screen Drivers](#basic-screen-driver)
+-   [Interrupts](#interrupts---02042024)
+    -   [Coding Interrupts](#coding-interrupts)
+    -   [Functions Cross-over](#functions-cross-over)
+    -   [Scrolling Fix](#scrolling)
 
 # The Start - [31/03/2024]
 
@@ -143,6 +147,8 @@ __asm__ __volatile__("int $3")
 
 The OS just keep refreshing its screen. Weird really.
 
+## Functions Cross-over
+
 Alright! Interrupts still don't work... BUT NOW I KNOW HOW TO GIVE ARGUMENTS
 TO FUNCTIONS THAT ARE IN C FORM ASSEMBLY!!!1!!
 Let's take our `print` function as an example _(from `src/kernel/drivers/screen.c`)_.
@@ -160,4 +166,9 @@ call _print             ; actually call the function with our arugment already g
 our_message: db "Hello from Assembly!", 0x0A, 0
 ```
 
-This is actually kind of easy! Next step: how to get the return
+This is actually kind of easy! Next step: how to get the return.
+
+## Scrolling Fix
+
+Alright, STILL NO INTERRUPTS... But now I fixed scrolling! So if I write too much text now,
+it will normally scroll. I'm a genius _(haha no)_.
