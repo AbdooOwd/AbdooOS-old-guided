@@ -20,7 +20,7 @@ An x86 OS I coded from scratch with the help of these resources:
         -   This cannot be downloaded, you have to
             manually compile `binutils` with
             `i386-elf` as target.
-            Refer to the [OS-Dev Wiki](#).
+            Refer to the [OS-Dev Wiki](https://wiki.osdev.org/).
     -   `qemu` to run your OS.
 
 # How to run
@@ -44,7 +44,7 @@ but I recommend using Qemu.
         This is a **REALLY BAD** practice. I only did it
         because linking correctly wouldn't work for me.
         Please refer to some tutorials/resources like
-        the [OS-Dev Wiki](#) for more information.
+        the [OS-Dev Wiki](https://wiki.osdev.org/) for more information.
 -   Now he have the files:
     -   `boot.bin` _(our boot sector)_.
     -   `full_kernel.bin` _(our kernel entry + actual kernel)_.
