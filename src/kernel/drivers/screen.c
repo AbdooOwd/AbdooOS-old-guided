@@ -1,5 +1,5 @@
-// #include "screen.h"
-// #include "../core.h"
+// // #include "screen.h"
+// // #include "../core.h"
 
 // "low_level.c"
 unsigned char port_byte_in(unsigned short port);
@@ -45,6 +45,9 @@ void print_char(char c, int col, int row) {
 
 /* FUNCITON DOESN'T WORK (prints last char of the string) */
 void print_at(char* message, int col, int row) {
+    if (!message)
+        message = "No message provided to print!";
+
     if (col >= 0 && row >= 0) {
         set_cursor(get_offset(col, row));
     }
