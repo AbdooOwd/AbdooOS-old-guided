@@ -3,7 +3,8 @@
 
 /* Reboots System by going back to the beginning of boot sector (WIP) */
 extern void reboot_system();
-
+void check_action(char* le_input);
+void clear_screen();
 
 const char* small_logo[3] = {
     "  _                   __   __ \n",
@@ -21,6 +22,7 @@ const char* thick_logo[6] = {
 };
 
 void main_() {
+    clear_screen();
 
     for (int i = 0; i < sizeof(thick_logo) / 4; i++) {
         print((char*)thick_logo[i]);
@@ -36,14 +38,24 @@ void main_() {
     asm volatile("sti");
 
     init_keyboard();
+    print("> ");
 }
 
 void user_input(char* input) {
-    if (strcmp(input, "END") == 0) {
-        print("Stopping the CPU. Bye!\n");
-        asm volatile("hlt");
-    }
+    check_action(input);
     print("You said: ");
     print(input);
     print("\n> ");
+}
+
+void check_action(char* le_input) {
+    if (strcmp(le_input, "END") == 0) {
+        print("Stopping the CPU. Bye!\n");
+        asm volatile("hlt");
+    }
+
+    if (strcmp(le_input, "REBOOT") == 0) {
+        print("Rebooting...\n");
+        goto * 0x0;
+    }
 }
