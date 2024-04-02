@@ -46,7 +46,7 @@ void print_char(char c, int col, int row) {
 /* FUNCITON DOESN'T WORK (prints last char of the string) */
 void print_at(char* message, int col, int row) {
     if (!message)
-        message = "No message provided to print!";
+        message = "No message provided to print!\n";
 
     if (col >= 0 && row >= 0) {
         set_cursor(get_offset(col, row));
