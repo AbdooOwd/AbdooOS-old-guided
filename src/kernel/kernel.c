@@ -5,7 +5,9 @@
 extern void reboot_system();
 int check_action(char* le_input);
 void clear_screen();
-void initialize();
+void initialize_kernel();
+
+
 
 const char* small_logo[3] = {
     "  _                   __   __ \n",
@@ -22,8 +24,9 @@ const char* thick_logo[6] = {
     " |_| |_| |____|   |____|   |____|   |____|    |______|   |______|\n"
 };
 
+
 void kernel_main() {
-    initialize();
+    initialize_kernel();
 
     for (int i = 0; i < sizeof(thick_logo) / 4; i++) {
         print((char*)thick_logo[i]);
@@ -33,7 +36,7 @@ void kernel_main() {
 }
 
 /* just some stuff to set up in the kernel at start */
-void initialize() {
+void initialize_kernel() {
     clear_screen();
     clear_buffer(); // clear buffer if it's still in memory
     isr_install();
@@ -42,31 +45,31 @@ void initialize() {
     init_keyboard();
 }
 
-// for handling commands (WIP)
-char* already_action = "";
 
 void user_input(char* input) {
-    int can_action = check_action(input);
-    if (can_action == 0) {
-        print("Unknown Command: ");
-    }
+    check_action(input);
     print(input);
     print("\n> ");
 }
 
 int check_action(char* le_input) {
-    if (strcmp(le_input, "END") == 0) {
+    if (strcmp(le_input, "ping") == 0) {
+        print("Pong!\n");
+    }
+
+    if (strcmp(le_input, "end") == 0) {
         print("Stopping the CPU. Bye!\n");
         asm volatile("hlt");
 
-        return 1;
     }
 
-    if (strcmp(le_input, "REBOOT") == 0) {
+    if (strcmp(le_input, "reboot") == 0) {
         print("Rebooting...\n");
         goto * 0x0;
-        return 1;
     }
 
-    return 0;
+    if ((strcmp(le_input, "qwerty") == 0) || (strcmp(le_input, "azerty") == 0)) {
+        change_layout(le_input);
+        print("Switched layout.\n");
+    }
 }

@@ -1,0 +1,1 @@
+void array_copy(char source[], char destination[], int size);
