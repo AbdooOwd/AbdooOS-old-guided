@@ -11,7 +11,7 @@ mov sp, bp
 
 
 mov bx, KERNEL_LOCATION
-mov dh, 20 ; in zeroes.asm we write about 20 sectors worth of bytes
+mov dh, 54 ; in zeroes.asm we write about 54 sectors worth of bytes
 
 mov ah, 0x02
 mov al, dh

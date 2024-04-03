@@ -71,19 +71,19 @@ char* my_string = "This is a string!";
 ```
 
 It works! So our problem is that in the boot sector, we're reading too few sectors,
-and we have that file `zeroes.asm` which fills up about 20 sectors worth of 0s.
+and we have that file `zeroes.asm` which fills up about 54 sectors worth of 0s.
 So instead of doing this in the boot sector _(`boot.asm`)_:
 
 ```asm
 mov bx, KERNEL_LOCATION
-mov dh, 2 ; in zeroes.asm we write about 20 sectors worth of bytes
+mov dh, 2 ; in zeroes.asm we write about 54 sectors worth of bytes
 ```
 
 We do this:
 
 ```asm
 mov bx, KERNEL_LOCATION
-mov dh, 20 ; in zeroes.asm we write about 20 sectors worth of bytes
+mov dh, 54 ; in zeroes.asm we write about 54 sectors worth of bytes
 ```
 
 And now it's fixed! Because assigning a variable puts it in the stack, but using
@@ -179,3 +179,22 @@ it will normally scroll. I'm a genius _(haha no)_.
 LEZGOOO!!!! I HAVE A WORKING SHELL THAT I (**ctrl+c** **ctrl+v**)'d.
 Now I gotta code some basic commands and learn more C.
 I suck at C. I need to learn C. I **MUST** learn **C**.
+
+# The Shell - [03/04/2024]
+
+## Basic Fixes
+
+Alright, first I'll fix some stuff:
+
+-   When pressing backspace, we don't delete. We print a weird character and don't go back.
+    And on top of that, the cursor doesn't even move!
+-   We can delete even previously printed text _(even text that was printed before enabling the keyboard)_.
+    I can fix that by putting an if statement that stops the user from backspac-ing if our
+    buffer _(i.e our input)_ is empty or null.
+
+Alright! I fixed all those stuff. Our next task is to add lowercase uppercase letters.
+
+## Lowercase and uppercase
+
+So, I'm too dumb to know how to make the system realize the Left Shift key is held
+and not only pressed once. So I'll make it a "toggle" thing. Seems easy enough.

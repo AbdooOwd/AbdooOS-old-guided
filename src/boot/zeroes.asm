@@ -1,1 +1,1 @@
-times 10240 db 0 ; about 20 sectors
+times 27648 db 0 ; about 54 sectors
