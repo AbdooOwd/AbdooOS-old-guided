@@ -1,8 +1,11 @@
 %define ENDL 0x0A
 
+global _start
+
+_start:
 section .text
     [bits 32]
-    [extern _main_]
+    [extern _kernel_main]
     
-    call _main_
+    call _kernel_main
     jmp $
