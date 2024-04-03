@@ -4,7 +4,6 @@
 // #include "../libc/function.h"
 
 u32 tick = 0;
-
 static void timer_callback(registers_t regs) {
     tick++;
     UNUSED(regs);
@@ -24,3 +23,7 @@ void init_timer(u32 freq) {
     port_byte_out(0x40, high);
 }
 
+
+int get_tick() {
+    return tick;
+}
