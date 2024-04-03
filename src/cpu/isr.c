@@ -119,7 +119,7 @@ char* exception_messages[] = {
 void isr_handler(registers_t r) {
     print("received interrupt: ");
     char s[3];
-    int_to_ascii(r.int_no, s); // type: ignore
+    int_to_ascii(r.int_no, s);
     print(s);
     print("\n");
     print(exception_messages[r.int_no]);
