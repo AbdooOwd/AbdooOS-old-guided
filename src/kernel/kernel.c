@@ -5,6 +5,7 @@
 extern void reboot_system();
 int check_action(char* le_input);
 void clear_screen();
+void initialize();
 
 const char* small_logo[3] = {
     "  _                   __   __ \n",
@@ -21,24 +22,24 @@ const char* thick_logo[6] = {
     " |_| |_| |____|   |____|   |____|   |____|    |______|   |______|\n"
 };
 
-void main_() {
-    clear_screen();
+void kernel_main() {
+    initialize();
 
     for (int i = 0; i < sizeof(thick_logo) / 4; i++) {
         print((char*)thick_logo[i]);
     }
 
-    print("\n\n");
+    print("\n\n - Welcome to AbdooOS!\n> ");
+}
 
-    print(" - Welcome to AbdooOS!\n");
-
+/* just some stuff to set up in the kernel at start */
+void initialize() {
+    clear_screen();
+    clear_buffer(); // clear buffer if it's still in memory
     isr_install();
-    irq_install();
-
+    irq_install(); // setting up interrupts
     asm volatile("sti");
-
     init_keyboard();
-    print("> ");
 }
 
 // for handling commands (WIP)
@@ -64,7 +65,6 @@ int check_action(char* le_input) {
     if (strcmp(le_input, "REBOOT") == 0) {
         print("Rebooting...\n");
         goto * 0x0;
-
         return 1;
     }
 
