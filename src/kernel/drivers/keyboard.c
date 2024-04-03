@@ -39,7 +39,7 @@ static void keyboard_callback(registers_t regs) {
     else if (scancode == ENTER) {
         print("\n");
         user_input(key_buffer); /* kernel-controlled function */
-        key_buffer[0] = '\0';
+        clear_buffer();
     }
     else {
         char letter = sc_ascii[(int)scancode];
@@ -53,4 +53,8 @@ static void keyboard_callback(registers_t regs) {
 
 void init_keyboard() {
     register_interrupt_handler(IRQ1, keyboard_callback);
+}
+
+void clear_buffer() {
+    key_buffer[0] = '\0';
 }
