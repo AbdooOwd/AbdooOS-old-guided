@@ -56,36 +56,40 @@ void initialize_kernel() {
 
 
 void user_input(char* input) {
-    check_action(input);
-    print(input);
+    if (check_action(input) == 0)
+        print(input);
     print("\n> ");
 }
 
 int check_action(char* le_input) {
     if (strcmp(le_input, "ping") == 0) {
-        print("Pong!\n");
+        print("Pong!");
+        return 1;
     }
-
-    if (strcmp(le_input, "help") == 0) {
+    else if (strcmp(le_input, "help") == 0) {
         for (int i = 0; i < sizeof(help_message) / 4; i++) {
             print((char*)help_message[i]);
             print("\n");
         }
+        return 1;
     }
-
-    if (strcmp(le_input, "end") == 0) {
+    else if (strcmp(le_input, "end") == 0) {
         print("Stopping the CPU. Bye!\n");
         asm volatile("hlt");
+        return 1;
 
     }
-
-    if (strcmp(le_input, "reboot") == 0) {
+    else if (strcmp(le_input, "reboot") == 0) {
         print("Rebooting...\n");
-        goto * 0x0;
+        // doesn't really reboot
+        // goto * 0x0;
+        kernel_main();
+        return 1;
     }
-
-    if ((strcmp(le_input, "qwerty") == 0) || (strcmp(le_input, "azerty") == 0)) {
+    else if ((strcmp(le_input, "qwerty") == 0) || (strcmp(le_input, "azerty") == 0)) {
         change_layout(le_input);
-        print("Switched layout.\n");
+        print("Switched layout.");
+        return 1;
     }
+    return 0;
 }
