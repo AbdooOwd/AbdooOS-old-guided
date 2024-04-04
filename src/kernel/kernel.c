@@ -24,6 +24,15 @@ const char* thick_logo[6] = {
     " |_| |_| |____|   |____|   |____|   |____|    |______|   |______|\n"
 };
 
+const char* help_message[] = {
+    "Usage: help",
+    "\nAvailable commands:",
+    "ping: just prints \"Pong!\" back",
+    "end: stops the CPU",
+    "reboot: restarts the kernel",
+    "qwerty | azerty: changes the keyboard layout to one of them"
+};
+
 
 void kernel_main() {
     initialize_kernel();
@@ -55,6 +64,13 @@ void user_input(char* input) {
 int check_action(char* le_input) {
     if (strcmp(le_input, "ping") == 0) {
         print("Pong!\n");
+    }
+
+    if (strcmp(le_input, "help") == 0) {
+        for (int i = 0; i < sizeof(help_message) / 4; i++) {
+            print((char*)help_message[i]);
+            print("\n");
+        }
     }
 
     if (strcmp(le_input, "end") == 0) {
