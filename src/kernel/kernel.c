@@ -71,6 +71,8 @@ void execute_command(char* le_command) {
 
 int check_action(char* le_input) {
 
+    lower(le_input);
+
     if (!has_char(le_input, ' '))
         previous_command = le_input;
 
@@ -108,7 +110,7 @@ int check_action(char* le_input) {
         return 1;
     }
     else if (strcmp(le_input, "test") == 0) {
-        print("Test");
+        print("Tested");
         return 1;
     }
     return 0;

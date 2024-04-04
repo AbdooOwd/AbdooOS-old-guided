@@ -127,6 +127,16 @@ void clear_screen() {
     set_cursor(get_offset(0, 0));
 }
 
+void color_cell(unsigned char color, int col, int row) {
+    unsigned char* vid = (unsigned char*)VIDEO_ADDRESS;
+
+    if (color <= 0)
+        color = BLACK_ON_WHITE;
+
+    int offset = get_offset(col, row) / 2;
+    vid[offset] = color;
+}
+
 int get_offset(int col, int row) { return (row * MAX_COLS + col) * 2; }
 int get_offset_row(int offset) { return offset / (2 * MAX_COLS); }
 int get_offset_col(int offset) { return (offset - (get_offset_row(offset) * 2 * MAX_COLS)) / 2; }
