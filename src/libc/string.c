@@ -1,4 +1,5 @@
 // #include "string.h"
+#include <stdbool.h>
 
 /**
  * K&R implementation
@@ -52,6 +53,12 @@ void backspace(char s[]) {
     s[len - 1] = '\0';
 }
 
+void backspaces(char s[], int times) {
+    for (int i = 0; i < times; i++) {
+        backspace(s);
+    }
+}
+
 
 /* K&R
  * Returns <0 if s1<s2, 0 if s1==s2, >0 if s1>s2 */
@@ -74,22 +81,39 @@ char* get_first_split(char* str, char split) {
     return le_word;
 }
 
-void merge_strings(char* str1, char* str2, char* result) {
+void split(char str[], char splitter, char* splitten[]) {
+    char* scanned;
     int i = 0, j = 0;
-
-    // Copy characters from str1 to result
-    while (str1[i] != '\0') {
-        result[i] = str1[i];
-        i++;
+    for (i; i < strlen(str);i++) {
+        if (str[i] == splitter) {
+            splitten[j] = scanned;
+            scanned = 0;
+            j++;
+        }
+        else {
+            append(scanned, str[i]);
+        }
     }
+}
 
-    // Copy characters from str2 to result
-    while (str2[j] != '\0') {
-        result[i] = str2[j];
-        i++;
-        j++;
+void merge_strings(char str1[], char str2[], char result[]) {
+    // TODO: Fix that it adds a space between strings
+    array_copy(str1, result, strlen(str1));
+    for (int i = 0; i < strlen(str2); i++)
+        append(result, str2[i]);
+}
+
+bool has_char(char* str, char target) {
+    for (int i = 0; i < strlen(str); i++) {
+        if (str[i] == target) return true;
     }
+    return false;
+}
 
-    // Null-terminate the result string
-    result[i] = '\0';
+int count(char str[], char target) {
+    int le_count = 0;
+    for (int i = 0; i < strlen(str); i++) {
+        if (str[i] == target) le_count++;
+    }
+    return le_count;
 }
