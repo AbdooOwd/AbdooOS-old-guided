@@ -13,3 +13,6 @@ void merge_strings(char str1[], char str2[], char result[]);
 bool has_char(char* str, char target);
 void split(char str[], char splitter, char* splitten[]);
 int count(char str[], char target);
+
+void lower(char* str);
+void upper(char* str);
