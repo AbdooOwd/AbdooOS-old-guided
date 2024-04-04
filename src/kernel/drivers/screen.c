@@ -72,6 +72,11 @@ void print_backspace() {
     set_cursor(offset);
 }
 
+void print_backspaces(int times) {
+    for (int i = 0; i < times; i++)
+        print_backspace();
+}
+
 void set_cursor(int offset) {
     offset /= 2;
     port_byte_out(REG_SCREEN_CTRL, 14);
