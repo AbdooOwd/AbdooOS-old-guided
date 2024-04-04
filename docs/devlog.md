@@ -24,6 +24,9 @@ _(also to do that technic called **"Rubber Ducking"**, search about it)_.
     -   [Functions Cross-over](#functions-cross-over)
     -   [Scrolling Fix](#scrolling)
     -   [Keyboard Input](#keyboard-input)
+-   [The Shell](#the-shell---03042024)
+    -   [Basic Fixes](#basic-fixes)
+    -   [Lowercase and Uppercase](#lowercase-and-uppercase)
 
 # The Start - [31/03/2024]
 
@@ -87,7 +90,7 @@ mov dh, 54 ; in zeroes.asm we write about 54 sectors worth of bytes
 ```
 
 And now it's fixed! Because assigning a variable puts it in the stack, but using
-a value without it being a variable means it's in memory. This is why declaring a variable
+a value without it being a variable means its in memory. This is why declaring a variable
 worked and directly using a string didn't work.
 
 > \* _(strings in C are collection of chars)_.
@@ -198,3 +201,8 @@ Alright! I fixed all those stuff. Our next task is to add lowercase uppercase le
 
 So, I'm too dumb to know how to make the system realize the Left Shift key is held
 and not only pressed once. So I'll make it a "toggle" thing. Seems easy enough.
+
+HAHA! I made the "shift holding" work! "How" you ask?
+It was queit simple to be honest. Left shift's scancode is `0x2A`, and when it is released,
+its scan code is `0xAA`. So I did that if it is just pressed, make the variable `shift_pressed` `true`.
+And if it is released make it `false`. I think the rest is logic.
