@@ -91,6 +91,7 @@ void change_layout(char* layout) {
 
 void init_keyboard() {
     array_copy(sc_ascii_FR, used_layout, SC_MAX + 1);
+    shift_pressed = false;
     register_interrupt_handler(IRQ1, keyboard_callback);
 }
 
