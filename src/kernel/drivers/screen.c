@@ -1,23 +1,54 @@
 // // // #include "screen.h"
 // // // #include "../core.h"
 
+#include <stdbool.h>
+
 // "low_level.c"
 unsigned char port_byte_in(unsigned short port);
 void port_byte_out(unsigned short port, unsigned char data);
 unsigned short port_word_in(unsigned short port);
 void port_word_out(unsigned short port, unsigned short data);
 
-int get_offset(int col, int row);
-void set_cursor(int offset);
-int get_cursor();
-int handle_scrolling(int cursor_offset);
+bool dark_mode = true;
+unsigned char le_theme = 0x0f;
 
-void print_char(char c, int col, int row);
-void print_at(char* message, int col, int row);
-void print(char* message);
-void clear_screen();
+void set_pixel(int x, int y, unsigned char color) {
+    unsigned char* screen = (unsigned char*)VIDEO_ADDRESS;
+    unsigned int offset = get_offset(x, y) + 1;
+    if (color <= 0) color = get_inverted_theme();
+    screen[offset - 1] = '\0';      // remove the ascii char
+    screen[offset] = color;
+}
 
-void memory_copy(char* source, char* dest, int no_bytes);
+void draw_rectangle(int x, int y, int width, int height, unsigned char color) {
+    for (int i = y; i < y + height; i++) {
+        for (int j = x; j < x + width; j++) {
+            set_pixel(j, i, color);
+        }
+    }
+}
+
+void move_rectangle(int x, int y, int width, int height, int to_x, int to_y) {
+    draw_rectangle(x, y, width, height, le_theme);
+    draw_rectangle(to_x, to_y, width, height, get_inverted_theme());
+}
+
+/*
+void set_pixel(int x, int y, unsigned char color) {
+    unsigned char* screen = (unsigned char*)VGA_ADDRESS;
+    unsigned int offset = (y * SCREEN_WIDTH) + x;
+    if (color <= 0) color = 0;
+    screen[offset] = color;
+}
+
+void draw_rectangle(int x, int y, int width, int height, unsigned char color) {
+    for (int i = y; i < y + height; i++) {
+        for (int j = x; j < x + width; j++) {
+            set_pixel(j, i, color);
+        }
+    }
+}
+*/
 
 void print_char(char c, int col, int row) {
     unsigned char* vid = (char*)VIDEO_ADDRESS;
@@ -135,6 +166,30 @@ void color_cell(unsigned char color, int col, int row) {
 
     int offset = get_offset(col, row) / 2;
     vid[offset] = color;
+}
+
+void change_theme() {
+    int le_offset = 1;
+    unsigned char* video = (unsigned char*)VIDEO_ADDRESS;
+
+    dark_mode = !dark_mode;
+
+    if (dark_mode)
+        le_theme = WHITE_ON_BLACK;
+    else
+        le_theme = BLACK_ON_WHITE;
+
+    for (int i = 0; i < MAX_ROWS; i++) {
+        for (int j = 0; j < MAX_COLS; j++) {
+            video[le_offset] = le_theme;
+            le_offset += 2;
+        }
+    }
+}
+
+unsigned char get_inverted_theme() {
+    if (le_theme == 0x0f) return 0xf0;
+    else return 0x0f;
 }
 
 int get_offset(int col, int row) { return (row * MAX_COLS + col) * 2; }
