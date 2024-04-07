@@ -30,7 +30,8 @@ const char* help_message[] = {
     "ping: just prints \"Pong!\" back",
     "end: stops the CPU",
     "reboot: restarts the kernel",
-    "qwerty | azerty: changes the keyboard layout to one of them"
+    "qwerty | azerty: changes the keyboard layout to one of them",
+    "theme: changes theme to \"dark\" or \"light\" based on current one"
 };
 
 char* previous_command = '\0';
