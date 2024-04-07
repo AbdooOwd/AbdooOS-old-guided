@@ -67,6 +67,7 @@ void print_char(char c, int col, int row) {
     }
     else {
         vid[offset] = c;
+        vid[offset + 1] = le_theme;
         offset += 2;
     }
 
