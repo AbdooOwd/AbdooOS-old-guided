@@ -1,5 +1,5 @@
-// // #include "./drivers/screen.h"
-// // #include "util.h"
+// #include "./drivers/screen.h"
+// #include "util.h"
 
 /* Reboots System by going back to the beginning of boot sector (WIP) */
 extern void reboot_system();
@@ -109,8 +109,14 @@ int check_action(char* le_input) {
         print("Switched layout.");
         return 1;
     }
+    else if (strcmp(le_input, "theme") == 0) {
+        change_theme();
+        print("Changed Theme.");
+        return 1;
+    }
     else if (strcmp(le_input, "test") == 0) {
-        print("Tested");
+        print("No test here (;");
+
         return 1;
     }
     return 0;
