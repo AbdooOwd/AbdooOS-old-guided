@@ -1,4 +1,6 @@
-// #include "string.h"
+#include "string.h"
+#include "../kernel/drivers/screen.h"
+#include "util.h"
 #include <stdbool.h>
 
 /**

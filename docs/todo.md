@@ -38,3 +38,7 @@
     -   Be able to call/execute those programs with a command [ ]
 -   Find an easy way to add programs to the OS without recompiling [ ]
     -   _<insert explanation on how to do it (if I did do this)>_
+
+## Code Organizing / Refactoring
+
+-   Make C code ideal for linking [ ]

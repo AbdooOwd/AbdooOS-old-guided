@@ -1,4 +1,4 @@
-// #include "mem.h"
+#include "mem.h"
 
 void memory_copy(char* source, char* dest, int no_bytes) {
     int i;

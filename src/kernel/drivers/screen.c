@@ -1,13 +1,10 @@
-// // // #include "screen.h"
-// // // #include "../core.h"
+#include "screen.h"
+#include "../core/core.h"
+#include "../low_level.h"
+#include "../../libc/mem.h"
+#include "../core/types.h"
 
 #include <stdbool.h>
-
-// "low_level.c"
-unsigned char port_byte_in(unsigned short port);
-void port_byte_out(unsigned short port, unsigned char data);
-unsigned short port_word_in(unsigned short port);
-void port_word_out(unsigned short port, unsigned short data);
 
 bool dark_mode = true;
 unsigned char le_theme = 0x0f;

@@ -1,7 +1,7 @@
 #ifndef IDT_H
 #define IDT_H
 
-// #include "types.h"
+#include "../kernel/core/types.h"
 
 /* Segment selectors */
 #define KERNEL_CS 0x08
@@ -28,8 +28,6 @@ typedef struct {
 } __attribute__((packed)) idt_register_t;
 
 #define IDT_ENTRIES 256
-idt_gate_t idt[IDT_ENTRIES];
-idt_register_t idt_reg;
 
 
 /* Functions implemented in idt.c */

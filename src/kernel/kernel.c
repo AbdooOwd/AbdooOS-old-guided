@@ -1,12 +1,10 @@
-// #include "./drivers/screen.h"
-// #include "util.h"
+#include "./drivers/screen.h"
+#include "./drivers/keyboard.h"
+#include "../libc/util.h"
+#include "../libc/string.h"
+#include "../cpu/isr.h"
 
-/* Reboots System by going back to the beginning of boot sector (WIP) */
-extern void reboot_system();
-int check_action(char* le_input);
-void clear_screen();
-void initialize_kernel();
-
+#include "kernel.h"
 
 
 const char* small_logo[3] = {

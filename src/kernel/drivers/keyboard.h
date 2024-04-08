@@ -1,4 +1,4 @@
-// #include "../cpu/types.h"
+#include "../../kernel/core/types.h"
 
 void init_keyboard();
 void clear_buffer();

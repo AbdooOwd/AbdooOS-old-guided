@@ -1,7 +1,7 @@
-// #include "timer.h"
-// #include "isr.h"
-// #include "ports.h"
-// #include "../libc/function.h"
+#include "timer.h"
+#include "isr.h"
+#include "../kernel/low_level.h"
+#include "../libc/function.h"
 
 u32 tick = 0;
 static void timer_callback(registers_t regs) {
