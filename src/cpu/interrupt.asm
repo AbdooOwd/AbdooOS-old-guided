@@ -1,6 +1,6 @@
 ; Defined in _isr.c
-[extern _isr_handler]
-[extern _irq_handler]
+[extern isr_handler]
+[extern irq_handler]
 
 ; Common _isr code
 _isr_common_stub:
@@ -15,7 +15,7 @@ _isr_common_stub:
 	mov gs, ax
 	
     ; 2. Call C handler
-	call _isr_handler
+	call isr_handler
 	
     ; 3. Restore state
 	pop eax 
@@ -39,7 +39,7 @@ _irq_common_stub:
     mov es, ax
     mov fs, ax
     mov gs, ax
-    call _irq_handler ; Different than the _isr code
+    call irq_handler ; Different than the _isr code
     pop ebx  ; Different than the _isr code
     mov ds, bx
     mov es, bx

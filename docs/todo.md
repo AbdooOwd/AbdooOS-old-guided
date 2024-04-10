@@ -42,3 +42,5 @@
 ## Code Organizing / Refactoring
 
 -   Make C code ideal for linking [ ]
+-   _(personal for computer)_ Recompile GCC for i386-elf target _"correctly"_ this time [X]
+    -   Make `i386-elf-gcc` work [X]

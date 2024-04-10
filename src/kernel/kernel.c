@@ -96,11 +96,14 @@ int check_action(char* le_input) {
         print("Rebooting...\n");
         // doesn't really reboot
         // goto * 0x0;
+        
+       /*
         kernel_main();
 
         // silly thing to remove that little "> " that will stay
         backspaces(le_input, 3);
         print_backspaces(3);
+        */
         return 1;
     }
     else if ((strcmp(le_input, "qwerty") == 0) || (strcmp(le_input, "azerty") == 0)) {
@@ -114,7 +117,8 @@ int check_action(char* le_input) {
         return 1;
     }
     else if (strcmp(le_input, "test") == 0) {
-        print("No test here (;");
+        
+        print("Who loves poop?");
 
         return 1;
     }

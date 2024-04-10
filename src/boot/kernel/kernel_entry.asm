@@ -5,7 +5,15 @@ global _start
 _start:
 section .text
     [bits 32]
-    [extern _kernel_main]
+    [extern kernel_main]
+    [extern print]
     
-    call _kernel_main
+    mov ebx, a
+    push ebx
+    call print
+    pop ebx
+
+    call kernel_main
     jmp $
+
+a: db "Entering Kernel", 0

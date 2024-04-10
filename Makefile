@@ -4,10 +4,11 @@ ASM?=nasm
 CC?=gcc
 
 ASM16?=i386-elf-as
-CC16?=i386-elf-gcc
+CC16?=/usr/local/i386elfgcc/bin/i386-elf-gcc
 LD16?=i386-elf-ld
 
-CFLAGS += -ffreestanding -m32 -g -c -Werror
+CFLAGS += -ffreestanding -c
+ASMFLAGS +=
 
 BUILD_DIR?=bin
 SRC_DIR?=src
@@ -21,7 +22,7 @@ C_OBJECTS=${C_SOURCES:.c=.o}
 ASM_SOURCES=$(wildcard $(SRC_DIR)/boot/kernel/*.asm $(SRC_DIR)/cpu/*.asm)
 ASM_OBJECTS=${ASM_SOURCES:.asm=.o}
 
-OBJ=$(wildcard $(SRC_DIR)/*.o $(SRC_DIR)/boot/kernel/*.o $(SRC_DIR)/cpu/*.o $(SRC_DIR)/kernel/*.o $(SRC_DIR)/kernel/drivers/*.o)
+OBJ=$(wildcard $(SRC_DIR)/*.o $(SRC_DIR)/boot/kernel/*.o $(SRC_DIR)/cpu/*.o $(SRC_DIR)/kernel/*.o $(SRC_DIR)/kernel/drivers/*.o $(SRC_DIR)/libc/*.o)
 
 H_SOURCES=$(wildcard $(SRC_DIR)/kernel/core/*.h $(SRC_DIR)/libc/*.h $(SRC_DIR)/cpu/*.h $(SRC_DIR)/kernel/drivers/*.h $(SRC_DIR)/kernel/*.h)
 
@@ -31,7 +32,7 @@ H_SOURCES=$(wildcard $(SRC_DIR)/kernel/core/*.h $(SRC_DIR)/libc/*.h $(SRC_DIR)/c
 
 all: os-image
 
-os-image: always $(BUILD_DIR)/$(OS_FILENAME)
+os-image: always $(BUILD_DIR)/$(OS_FILENAME) #$(BUILD_DIR)/fs_$(OS_FILENAME)
 
 always:
 	mkdir -p $(BUILD_DIR)/objects
@@ -39,23 +40,23 @@ always:
 
 
 clean-obj clear-obj:
-	rm -r ${OBJ}
+	rm -r $(OBJ)
 
 clean clear: clean-obj
 	rm -r $(BUILD_DIR)/*
 
 # The image
-$(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin
+$(BUILD_DIR)/fs_$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin
 	dd if=/dev/zero of=$(BUILD_DIR)/pre_OS.iso bs=512 count=2880
 	mkfs.fat -F 12 -n "NBOS" $(BUILD_DIR)/pre_OS.iso
 	dd if=$(BUILD_DIR)/boot.bin of=$(BUILD_DIR)/pre_OS.iso conv=notrunc
 #	mcopy -i $(BUILD_DIR)/pre_OS.iso $(BUILD_DIR)/full_kernel.bin "::full_kernel.bin"
 #	mcopy -i $(BUILD_DIR)/pre_OS.iso $(BUILD_DIR)/zeroes.bin "::zeroes.bin"
-	cat $^ $(BUILD_DIR)/pre_OS.iso > $@
+	cat $^  > $@
 
 # OG Image Rule
-#$(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
-#	cat $^ > $@
+$(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
+	cat $^ > $@
 
 # Assembly Booting
 $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
@@ -66,7 +67,7 @@ $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
 	$(ASM) $< -f elf -o $@
 
 %.o: %.c $(H_SOURCES)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC16) $(CFLAGS) $< -o $@
 
 # Concatenate all C files and header files into one mega_kernel.c
 #$(BUILD_DIR)/objects/mega_kernel.c: $(H_SOURCES) $(C_SOURCES) 

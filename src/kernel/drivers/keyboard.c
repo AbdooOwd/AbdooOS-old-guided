@@ -36,7 +36,7 @@ char sc_ascii_FR[] = { '?', '?', '1', '2', '3', '4', '5', '6',
         'h', 'j', 'k', 'l', 'm', '\'', '`', '?', '\\', 'w', 'x', 'c', 'v',
         'b', 'n', ',', ';', '.', '/', '?', '?', '?', ' ' };
 
-char used_layout[] = { '\0' };
+char used_layout[SC_MAX + 1];
 
 bool shift_pressed = false;
 

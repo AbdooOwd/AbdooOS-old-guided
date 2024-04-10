@@ -1,3 +1,5 @@
+#ifndef STRING_H
+#define STRING_H
 
 #include <stdbool.h>
 
@@ -16,3 +18,5 @@ int count(char str[], char target);
 
 void lower(char* str);
 void upper(char* str);
+
+#endif
