@@ -4,6 +4,6 @@
 #include "../kernel/core/types.h"
 
 void array_copy(char source[], char destination[], int size);
-bool array_has_string(char* str_arr[], char* the_str);
+bool array_has_string(char** str_arr, char* the_str);
 
 #endif
