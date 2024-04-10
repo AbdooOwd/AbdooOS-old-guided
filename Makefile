@@ -19,7 +19,7 @@ OS_FILENAME?=OS.iso
 C_SOURCES=$(wildcard $(SRC_DIR)/libc/*.c $(SRC_DIR)/cpu/*.c $(SRC_DIR)/drivers/*.c $(SRC_DIR)/kernel/*.c)
 C_OBJECTS=${C_SOURCES:.c=.o}
 
-ASM_SOURCES=$(wildcard $(SRC_DIR)/boot/kernel_entry.asm $(SRC_DIR)/cpu/*.asm)
+ASM_SOURCES=$(wildcard $(SRC_DIR)/boot/kernel_entry.asm $(SRC_DIR)/cpu/*.asm $(SRC_DIR)/kernel/asm/*.asm)
 ASM_OBJECTS=${ASM_SOURCES:.asm=.o}
 
 OBJ=$(wildcard $(SRC_DIR)/*.o $(SRC_DIR)/boot/kernel/*.o $(SRC_DIR)/cpu/*.o $(SRC_DIR)/kernel/*.o $(SRC_DIR)/drivers/*.o $(SRC_DIR)/libc/*.o)
