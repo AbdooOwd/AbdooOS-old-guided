@@ -1,5 +1,5 @@
 #include "string.h"
-#include "../kernel/drivers/screen.h"
+#include "../drivers/screen.h"
 #include "util.h"
 #include <stdbool.h>
 

@@ -1,5 +1,5 @@
-#include "./drivers/screen.h"
-#include "./drivers/keyboard.h"
+#include "../drivers/screen.h"
+#include "../drivers/keyboard.h"
 #include "../libc/util.h"
 #include "../libc/string.h"
 #include "../cpu/isr.h"
