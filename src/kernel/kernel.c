@@ -120,8 +120,8 @@ int check_action(char* le_input) {
     }
     else if (strcmp(le_input, "test") == 0) {
         /* Lesson 22: Code to test kmalloc, the rest is unchanged */
-        u32 phys_addr;
-        u32 page = kmalloc(1000, 1, &phys_addr);
+        uint32_t phys_addr;
+        uint32_t page = kmalloc(1000, 1, &phys_addr);
         char page_str[16] = "";
         hex_to_ascii(page, page_str);
         char phys_str[16] = "";

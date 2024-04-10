@@ -3,7 +3,7 @@
 
 #include "../kernel/core/types.h"
 
-void init_timer(u32 freq);
+void init_timer(uint32_t freq);
 int get_tick();
 
 #endif
