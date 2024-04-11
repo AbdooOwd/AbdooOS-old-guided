@@ -96,16 +96,7 @@ int check_action(char* le_input) {
     }
     else if (strcmp(le_input, "reboot") == 0) {
         print("Rebooting...\n");
-        // doesn't really reboot
-        // goto * 0x0;
-        
-       /*
-        kernel_main();
-
-        // silly thing to remove that little "> " that will stay
-        backspaces(le_input, 3);
-        print_backspaces(3);
-        */
+        goto * 0x1000;
         return 1;
     }
     else if ((strcmp(le_input, "qwerty") == 0) || (strcmp(le_input, "azerty") == 0)) {
@@ -119,17 +110,12 @@ int check_action(char* le_input) {
         return 1;
     }
     else if (strcmp(le_input, "test") == 0) {
-        /* Lesson 22: Code to test kmalloc, the rest is unchanged */
-        uint32_t phys_addr;
-        uint32_t page = kmalloc(1000, 1, &phys_addr);
-        char page_str[16] = "";
-        hex_to_ascii(page, page_str);
-        char phys_str[16] = "";
-        hex_to_ascii(phys_addr, phys_str);
-        print("Page: ");
-        print(page_str);
-        print(", physical address: ");
-        print(phys_str);
+        char* venom = "one two three";
+        char* poop[] = {};
+        int nono = split(venom, ' ', poop);
+
+        //print(poop[0]);
+
         return 1;
     }
     return 0;

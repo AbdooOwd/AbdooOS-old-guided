@@ -51,7 +51,7 @@ void reverse(char s[]) {
 }
 
 /* K&R */
-int strlen(char s[]) {
+size_t strlen(char s[]) {
     int i = 0;
     while (s[i] != '\0') ++i;
     return i;
@@ -61,13 +61,6 @@ void append(char s[], char n) {
     int len = strlen(s);
     s[len] = n;
     s[len + 1] = '\0';
-}
-
-void new_backspace() {
-    unsigned char* video = (unsigned char*)VIDEO_ADDRESS;
-    int cursor_offset = get_cursor();
-    video[cursor_offset - 2] = '\0'; // set the previous char to empty (null)
-    set_cursor(cursor_offset - 2);
 }
 
 void backspace(char s[]) {
@@ -103,33 +96,29 @@ char* get_first_split(char* str, char split) {
     return le_word;
 }
 
-int split(char str[], char splitter, char* splitten[]) {
+size_t split(char str[], char splitter, char* splitten[]) {
     char* scanned;
-    int i = 0, j = 0;
 
-    // go through each char of str
-    for (i; i < strlen(str); i++) {
-        if (str[i] == splitter) {
-            // if it's splitter then we add a new element
-            // and we j+1 to go to next bababoey
+    // our new element in the list will be at this index (after finding 'splitter')
+    size_t splitten_index = 0;
 
-            // null-terminate the string
-            scanned[strlen(scanned)] = '\0';
-            splitten[j] = scanned;          // add the string
-            j++;                            // next index
-            scanned[0] = '\0';              // Clear the string
+    // iterate through each char of the provided string
+    for (size_t i = 0; i < strlen(str) + 1; i++) {
 
-            print(splitten[j]);
-        }
-        else {
-            append(scanned, str[i]);
+        // "one two three"
+
+        // if splitter is found in string at 'i' char
+        if (str[i] == splitter || str[i] == '\0') {
+            append(scanned, '\0');              // null-termminate new string
+            splitten[splitten_index] = scanned; // add new string
+            splitten_index++;                   // (future) next new string 
+            print(scanned);
+            scanned = '\0';                     // clear scanned string
+        } else {
+            append(scanned, str[i]);            // just add scanned char to scanned string
         }
     }
-
-    scanned[strlen(scanned)] = '\0';
-    splitten[j + 1] = scanned;
-
-    return j + 1; // add last elem
+    return splitten_index + 1;
 }
 
 void merge_strings(char str1[], char str2[], char result[]) {
