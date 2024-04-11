@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 /* Instead of using 'chars' to allocate non-character bytes,
  * we will use these new type with no semantic meaning */
