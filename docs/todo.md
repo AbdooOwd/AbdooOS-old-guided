@@ -6,8 +6,12 @@
 -   Make a working Kernel Entry to enter the kernel [X]
     -   Try make C work _(switch to higher-level programming language)_ [X]
     -   Code a C Kernel [X]
+
+### C Linking
+
 -   Link the C files [ FAILED ]
     -   Merge all the C files into `bin/mega_kernel.c` instead _(to then compile this file)_ [X]
+-   Link the C files _(2nd try)_ [X] _(success)_
 
 ## Drivers
 
@@ -32,7 +36,7 @@
 
 ## Programs
 
--   _(temporary ToDo)_ Learn how to make _(external)_ programs [ ]
+-   Learn how to make _(external)_ programs [ ]
 -   Load available programs [ ]
     -   Scan the available programs [ ]
     -   Be able to call/execute those programs with a command [ ]

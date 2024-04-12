@@ -32,7 +32,7 @@ H_SOURCES=$(wildcard $(SRC_DIR)/kernel/core/*.h $(SRC_DIR)/libc/*.h $(SRC_DIR)/c
 
 all: os-image
 
-os-image: always $(BUILD_DIR)/$(OS_FILENAME) #$(BUILD_DIR)/fs_$(OS_FILENAME)
+os-image: always $(BUILD_DIR)/$(OS_FILENAME) $(BUILD_DIR)/fs_$(OS_FILENAME)
 
 always:
 	mkdir -p $(BUILD_DIR)/objects
@@ -46,13 +46,11 @@ clean clear: clean-obj
 	rm -r $(BUILD_DIR)/*
 
 # The image
-$(BUILD_DIR)/fs_$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin
-	dd if=/dev/zero of=$(BUILD_DIR)/pre_OS.iso bs=512 count=2880
-	mkfs.fat -F 12 -n "NBOS" $(BUILD_DIR)/pre_OS.iso
-	dd if=$(BUILD_DIR)/boot.bin of=$(BUILD_DIR)/pre_OS.iso conv=notrunc
-#	mcopy -i $(BUILD_DIR)/pre_OS.iso $(BUILD_DIR)/full_kernel.bin "::full_kernel.bin"
-#	mcopy -i $(BUILD_DIR)/pre_OS.iso $(BUILD_DIR)/zeroes.bin "::zeroes.bin"
-	cat $^  > $@
+$(BUILD_DIR)/fs_$(OS_FILENAME): $(BUILD_DIR)/boot_nano.bin $(BUILD_DIR)/full_kernel.bin
+	dd if=/dev/zero of=$@ bs=512 count=2880
+	mkfs.fat -F 12 -n "NBOS" $@
+	dd if=$(BUILD_DIR)/boot_nano.bin of=$@ conv=notrunc
+	mcopy -i $@ $(BUILD_DIR)/full_kernel.bin "::kernel.bin"
 
 # OG Image Rule
 $(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
@@ -60,6 +58,9 @@ $(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin 
 
 # Assembly Booting
 $(BUILD_DIR)/boot.bin: $(SRC_DIR)/boot/boot.asm
+	$(ASM) $< -f bin -o $@
+
+$(BUILD_DIR)/boot_nano.bin: $(SRC_DIR)/boot/boot_nano.asm
 	$(ASM) $< -f bin -o $@
 
 # compiles all the assembly code
