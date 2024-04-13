@@ -22,4 +22,7 @@ int count(char str[], char target);
 void lower(char* str);
 void upper(char* str);
 
+char* strip_ret(char* str);
+void strip(char* to_strip, char* stripped);
+
 #endif

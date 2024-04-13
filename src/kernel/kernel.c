@@ -110,11 +110,10 @@ int check_action(char* le_input) {
         return 1;
     }
     else if (strcmp(le_input, "test") == 0) {
-        char* text = "we are testing the split function";
-        char* poop[] = {};
-        int nono = split(text, ' ', poop);
+        
+        char* x = strip_ret("I Love God");
 
-        //print(poop[0]);
+        print(x);
 
         return 1;
     }

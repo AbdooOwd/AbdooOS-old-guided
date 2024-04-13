@@ -154,3 +154,18 @@ void upper(char* str) {
         if (str[i] >= 'a' && str[i] <= 'z')
             str[i] -= 0x20;
 }
+
+void strip(char* to_strip, char* stripped) {
+    for (size_t i = 0; i < strlen(to_strip); i++)
+        if (to_strip[i] != ' ')
+            append(stripped, to_strip[i]);
+}
+
+char* strip_ret(char* str) {
+    char* stripped_str;
+    for (size_t i = 0; i < strlen(str); i++)
+        if (str[i] != ' ')
+            append(stripped_str, str[i]);
+
+    return stripped_str;
+}
