@@ -31,6 +31,8 @@
 -   Load file system in boot sector [ ]
 -   Code basic FAT12 tools _(in C)_ [ ]
     -   File reading [ ]
+        -   Replace or remake `FILE` type [ ]
+        -   Re-code basic `stdio` functions [ ]
     -   File writing [ ]
     -   Directory Scanning _(kinda like `ls` but with more functions)_ [ ]
 

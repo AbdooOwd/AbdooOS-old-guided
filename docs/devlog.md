@@ -206,3 +206,39 @@ HAHA! I made the "shift holding" work! "How" you ask?
 It was queit simple to be honest. Left shift's scancode is `0x2A`, and when it is released,
 its scan code is `0xAA`. So I did that if it is just pressed, make the variable `shift_pressed` `true`.
 And if it is released make it `false`. I think the rest is logic.
+
+# The FileSystem [13/04/2024]
+
+## Two OS Images
+
+My `Makefile` now compiles two images for my OS:
+
+-   **OS.iso:** My basic OS but without a filesystem.
+-   **fs_OS.iso:** My basic OS but WITH a filesystem _(FAT12)_.
+
+## Basic _(STD based)_ Fat Driver/Tool
+
+I now have a working "fat" tool. The only problem is that it
+is based on standard C libraries, and I cannot use those libraries
+in my OS _(haha thx `-ffreestanding` <3)_.
+
+It takes two arguments:
+
+-   The OS image _(i.e disk image)_.
+-   The filename, but this part is complicated:
+    -   If the file is called `text.txt` for example,
+        to read it I'll have to give this filename:
+        `TEXT    TXT`, meaning it **MUST** to have
+        11 bytes/chars.
+
+## [BONUS] C Linking + Refactoring
+
+-   **C Linking:** I can now normally link my C Files, LEZGOOOOO.
+-   **Refactoring:** Like putting `types.h` in `src/libc/` instead
+    of `src/kernel/core/`.
+
+## Coding a fat driver/tool
+
+Now I'm trying to convert that std-based fat tool that I have
+to a tool that I can actually use in my OS. For now, my problem
+is remake the `FILE` type or replace it with something else.
