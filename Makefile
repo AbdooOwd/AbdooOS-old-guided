@@ -13,7 +13,9 @@ ASMFLAGS +=
 BUILD_DIR?=bin
 SRC_DIR?=src
 
+# Filenames
 OS_FILENAME?=OS.iso
+FAT_STD_FILENAME=fat_std.exe
 
 
 C_SOURCES=$(wildcard $(SRC_DIR)/libc/*.c $(SRC_DIR)/cpu/*.c $(SRC_DIR)/drivers/*.c $(SRC_DIR)/kernel/*.c)
@@ -33,6 +35,7 @@ H_SOURCES=$(wildcard $(SRC_DIR)/kernel/core/*.h $(SRC_DIR)/libc/*.h $(SRC_DIR)/c
 all: os-image
 
 os-image: always $(BUILD_DIR)/$(OS_FILENAME) $(BUILD_DIR)/fs_$(OS_FILENAME)
+fat-std: $(BUILD_DIR)/$(FAT_STD_FILENAME)
 
 always:
 	mkdir -p $(BUILD_DIR)/objects
@@ -51,6 +54,7 @@ $(BUILD_DIR)/fs_$(OS_FILENAME): $(BUILD_DIR)/boot_nano.bin $(BUILD_DIR)/full_ker
 	mkfs.fat -F 12 -n "NBOS" $@
 	dd if=$(BUILD_DIR)/boot_nano.bin of=$@ conv=notrunc
 	mcopy -i $@ $(BUILD_DIR)/full_kernel.bin "::kernel.bin"
+	mcopy -i $@ src/data/poop.txt "::poop.txt"
 
 # OG Image Rule
 $(BUILD_DIR)/$(OS_FILENAME): $(BUILD_DIR)/boot.bin $(BUILD_DIR)/full_kernel.bin $(BUILD_DIR)/zeroes.bin
@@ -84,4 +88,13 @@ $(BUILD_DIR)/zeroes.bin: $(SRC_DIR)/boot/zeroes.asm
 
 # Link boot code, kernel entry, and mega_kernel.o
 $(BUILD_DIR)/full_kernel.bin: $(ASM_OBJECTS) $(C_OBJECTS)
+	make always
 	$(LD16) -o $@ -Ttext 0x1000 $^ --oformat binary -Map $(BUILD_DIR)/info/linked.map
+
+
+# silly - test
+$(BUILD_DIR)/$(FAT_STD_FILENAME): $(SRC_DIR)/tools/fat/fat.c 
+	gcc $< -o $@
+
+test-fat: fat-std $(BUILD_DIR)/fs_$(OS_FILENAME)
+	./bin/$(FAT_STD_FILENAME) bin/fs_OS.iso "POOP    TXT"
