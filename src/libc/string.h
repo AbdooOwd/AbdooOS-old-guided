@@ -2,7 +2,7 @@
 #define STRING_H
 
 #include <stdbool.h>
-#include "../kernel/core/types.h"
+#include "../core/types.h"
 
 void int_to_ascii(int n, char str[]);
 void hex_to_ascii(int n, char str[]);

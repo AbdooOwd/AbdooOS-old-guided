@@ -1,7 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "../kernel/core/types.h"
+#include "../core/types.h"
 
 void array_copy(char source[], char destination[], int size);
 bool array_has_string(char** str_arr, char* the_str);
