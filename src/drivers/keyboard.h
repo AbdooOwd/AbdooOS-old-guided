@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include "../core/types.h"
+#include "../libc/types.h"
 
 void init_keyboard();
 void clear_buffer();

@@ -1,5 +1,5 @@
 #include "low_level.h"
-#include "../core/types.h"
+#include "../libc/types.h"
 
 unsigned char port_byte_in(unsigned short port) {
     unsigned char result;

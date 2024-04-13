@@ -1,8 +1,7 @@
 #include "screen.h"
-#include "../core/core.h"
 #include "../kernel/low_level.h"
 #include "../libc/mem.h"
-#include "../core/types.h"
+#include "../libc/types.h"
 
 #include <stdbool.h>
 
