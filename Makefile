@@ -93,7 +93,7 @@ $(BUILD_DIR)/full_kernel.bin: $(ASM_OBJECTS) $(C_OBJECTS)
 
 
 # silly - test
-$(BUILD_DIR)/$(FAT_STD_FILENAME): $(SRC_DIR)/tools/fat/fat.c 
+$(BUILD_DIR)/$(FAT_STD_FILENAME): $(SRC_DIR)/tools/fat/fat_std.c 
 	gcc $< -o $@
 
 test-fat: fat-std $(BUILD_DIR)/fs_$(OS_FILENAME)
